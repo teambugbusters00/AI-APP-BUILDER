@@ -1,7 +1,9 @@
 """Generate a project blueprint from a structured specification."""
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel,Field
 app=FastAPI(title="AI App Builder")
+app.add_middleware(CORSMiddleware, allow_origins=["*"], allow_methods=["*"], allow_headers=["*"])
 class Spec(BaseModel):name:str=Field(min_length=2,max_length=50);frontend:str="React";backend:str="FastAPI";database:str="PostgreSQL";features:list[str]=Field(min_length=1,max_length=12)
 @app.post("/blueprint")
 def blueprint(s:Spec):
